@@ -1,1 +1,1 @@
-# DYCE_lab
+# For lab code collaboration and sharing
