@@ -59,7 +59,7 @@ head(metrics_dfA)  ## notice the column Year, Day_Year, and Density are not lida
 
 ########## Example 2:  Deriving lidar metrics as raster #############
 
-## here rasterize all the lidar tiles using catalog_map on catalogs 
+## here rasterize all the lidar tiles using catalog_map on catalogs, the rasterized metrics have the same metrics and same order as shown in above example except Year, Day_Year, and Density are not in the output 
 las_catalog = readLAScatalog('.', pattern='271*')
 plot(las_catalog)
 
@@ -67,15 +67,19 @@ plot(las_catalog)
 opt_chunk_buffer(las_catalog) <- 50
 plot(las_catalog, chunk = TRUE)
 
+## merge all the output rasters
 options = list(automerge = TRUE)
+## set directory for the output
 output_directory <- "C:/Users/liang/OneDrive/Desktop/ABoVE/Lidar/NS/output/"
+
+## set name format for the output rasterized metrics, no need to set the extension (i.e. .tif)
 opt_output_files(las_catalog) <- paste0(output_directory,'Metrics_',"{ORIGINALFILENAME}")
+## continue to run if error occurs from some processes 
 opt_stop_early(las_catalog) <- FALSE
 
+## need to use future package to parallel 
 library(future)
-
-start_time <- Sys.time()
-plan(multisession, workers = 8L)
+plan(multisession, workers = 6L)
 
 out= catalog_map(las_catalog, get_metricsAll_raster,res=10, .options= options)
 
