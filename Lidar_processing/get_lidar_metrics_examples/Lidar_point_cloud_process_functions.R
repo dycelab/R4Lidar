@@ -26,15 +26,23 @@ aba_metrics = function(las, idnm){
   density = hds$`Number of point records`/(lidR::area(las))
   las_f = filter_first(las) 
   
+  ## basic1 is a list of lidar metrics based on all returns, including lidar density metric  and relative height metric  (refer publication here: https://www.sciencedirect.com/science/article/pii/S0034425713002125)
   basic1= unlist(cloud_metrics(las, ~ld_metrics(Z)))
+  
+  ## basic2 is a lit of lidar metrics based on first returns only (i.e. canopy top), including percentile of returned heights
   basic2 = unlist(cloud_metrics(las_f, ~ld_metrics_cp(Z)))
+  
+  ## refer here https://github.com/wanwanliang/lidRmetrics/blob/main/R/metrics_dispersion.R for explanation on dispersion metrics
   disp_metrics = unlist(cloud_metrics(las, ~metrics_dispersion(Z)))
   
   
   chm = mean(las_f$Z, na.rm=T)
   ccs = unlist(cloud_metrics(las_f, ~canopy_cover(Z)))
 
+  ## refer here https://github.com/wanwanliang/lidRmetrics/blob/main/R/metrics_Lmoments.R for explanation on Lmoments metrics
   lmoments = unlist(cloud_metrics(las, ~metrics_Lmoments(Z)))
+  
+  ## refer here https://github.com/wanwanliang/lidRmetrics/blob/main/R/metrics_lad.R for explanation on LAD metrics
   lads = unlist(cloud_metrics(las, ~metrics_lad(Z)))
   #rump = unlist(cloud_metrics(las, ~metrics_rumple(X,Y,Z,0.5))) 
   #names(rump) = 'rumple'
@@ -596,4 +604,3 @@ metrics_rumple <- function(x, y, z, pixel_size, zmin=NA) {
   return(list(rumple=r))
   
 }
-
