@@ -23,9 +23,9 @@ get_ld_metricAll_aoi = function(i, reproj=FALSE){
   }
   
   ## clip las_catalog by a aoi with bigger buffer to ensure reliable estimation on DTM and DSM
-  
-  ## normalize las file (a function in Lidar_point_cloud_process_functions.R)
   las = clip_roi(las_catalog, st_buffer(aoi,150))
+
+  ## normalize las file (a function in Lidar_point_cloud_process_functions.R)
   las = normalize_las(las) 
   ## now clip las by the ground plot itself
   las = clip_roi(las, aoi)
@@ -67,8 +67,8 @@ plot(las_catalog)
 opt_chunk_buffer(las_catalog) <- 30
 plot(las_catalog, chunk = TRUE)
 
-## merge all the output rasters
-## options = list(automerge = TRUE)
+## merge all the output rasters, disabled
+## options = list(automerge = TRUE) 
 ## set directory for the output
 output_directory <- "C:/Users/liang/OneDrive/Desktop/ABoVE/Lidar/NS/output/"
 
@@ -81,5 +81,6 @@ opt_stop_early(las_catalog) <- FALSE
 library(future)
 plan(multisession, workers = 6L)
 
+## map the get_metricsAll_raster function to all chunks, and the output raster has 10-m resolution
 out= catalog_map(las_catalog, get_metricsAll_raster,res=10)
 
