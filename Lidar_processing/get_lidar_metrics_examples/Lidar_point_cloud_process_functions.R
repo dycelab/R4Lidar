@@ -15,7 +15,7 @@ library(Lmoments)
 #'  
 #' @param las, las for the AOI
 #' @param idnm, string, id of the AOI
-#' @return a dataframe with idnm as row names, and all lidar metrics as columns, use names(output) to get names of all lidar metrics, where output is the output raster_stack
+#' @return a dataframe with idnm as row names, and all lidar metrics as columns, use colnames(output) to get names of all lidar metrics, where output is the output dataframe, notice Year, Day_Year, and Density columns are not lidar metrics
 
 
 aba_metrics = function(las, idnm){
@@ -62,7 +62,7 @@ aba_metrics = function(las, idnm){
 }
 
 
-#'similar with aba_metrics, but the function below derives lidar metrics as raster with given resolution
+#'similar with aba_metrics, but the function below derives lidar metrics as rasterstack with given resolution
 #'  
 #' @param las, las for the AOI
 #' @param res, integer, resolution of output lidar metrics 
@@ -71,14 +71,20 @@ aba_metrics = function(las, idnm){
 
 get_metricsAll_raster = function(las, res){
   #las <- readLAS(chunk)
-  
+
+  ## remove noise
   las = las[!las$Classification%in%c(6, 7,9, 10, 11, 12,13,14,15,16,17,18),]
   las =  classify_noise(las, ivf(3,2))
   las <- filter_poi(las, (Classification != LASNOISE))
+
+  ## get normalized height after removing DTM
   las <- normalize_height(las, tin(extrapolate = knnidw(10, 2, 5)))
+  ## remove some potential noise or outliers
   las =  filter_poi(las, Z >= 0 & Z < min(100, quantile(Z, .9999)))
+  ## get the first return (i.e. canopy top returns)
   las_f = filter_first(las)
-  
+
+  ## refer to function aba_metrics to get more details on meaning of lidar metrics below; grid_metrics is a lidR function to return lidar metrics as grid
   basic1 <- grid_metrics(las, res= res, ~ld_metrics(Z))
   basic2 <- grid_metrics(las_f, res= res, ~ld_metrics_cp(Z))
   disp_metrics = grid_metrics(las, res=res, ~metrics_dispersion(Z))
