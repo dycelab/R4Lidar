@@ -1,4 +1,4 @@
-
+## set to your working dir, the example data used in this folder is here: https://drive.google.com/drive/folders/1HFLB2nqdxdJIBYdq6DizsaYa3-rc7gDo?usp=drive_link
 setwd('C:/Users/liang/OneDrive/Desktop/ABoVE/Lidar/NS/')
 source('Lidar_point_cloud_process_functions.R')
 
