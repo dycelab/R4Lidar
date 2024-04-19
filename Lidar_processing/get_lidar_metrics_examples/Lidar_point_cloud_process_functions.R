@@ -135,7 +135,7 @@ get_metricsAll_raster = function(las, res){
 #' @return L-moments and L-moment ratios
 
 normalize_las = function(las){
-  
+  las <- filter_duplicates(las)
   las = las[!las$Classification%in%c(6, 7,9, 10, 11, 12,13,14,15,16,17,18),]
   las =  classify_noise(las, ivf(3,2))
   las <- filter_poi(las, (Classification != LASNOISE))
