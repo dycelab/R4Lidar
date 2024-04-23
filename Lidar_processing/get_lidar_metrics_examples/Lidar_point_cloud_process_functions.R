@@ -244,6 +244,7 @@ metrics_rumple <- function(x, y, z, pixel_size, zmin=NA) {
 }
 
 
+### from https://github.com/ptompalski/lidRmetrics
 metrics_dispersion <- function(z, dz=1, zmin=0) {
   
   
@@ -269,6 +270,7 @@ metrics_dispersion <- function(z, dz=1, zmin=0) {
   return(m)
 }
 
+### from https://github.com/ptompalski/lidRmetrics
 metrics_lad <- function(z, zmin=NA, dz = 1, k = 0.5, z0 = 2) {
   
   if (!is.na(zmin)) z <- z[z>zmin]
@@ -297,6 +299,7 @@ metrics_lad <- function(z, zmin=NA, dz = 1, k = 0.5, z0 = 2) {
 }
 
 
+### from https://github.com/ptompalski/lidRmetrics
 #' L-moments and L-moment ratios
 #' 
 #' Calculates L-moments and L-moment ratios of point cloud heihts.
@@ -351,7 +354,7 @@ metrics_Lmoments <- function(z, zmin=NA) {
 }
 
 
-
+### from https://github.com/ptompalski/lidRmetrics
 #' Basic metrics
 #' 
 #' Most common descriptive statistics used to characterize the vertical distribution of a point cloud.
@@ -400,7 +403,7 @@ metrics_basic <- function(z, zmin=NA) {
 }
 
 
-
+### code below all from https://github.com/ptompalski/lidRmetrics
 #' Dispersion metrics
 #' 
 #' Metrics characterizing variation of point cloud heights. 
