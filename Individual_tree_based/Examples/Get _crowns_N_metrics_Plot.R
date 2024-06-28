@@ -4,10 +4,14 @@ setwd("...")
 
 las = readLAS('las4test.laz')
 las
-outs= get_crown_metrics(las, res=5)
+
+## run the function, make sure you loaded all the functions in the R code (in Code folder)
+outs= get_crown_metrics(las, res=5) 
 
 crowns= outs[[1]]
 crown_metrics = outs[[2]]
+
+## the code below will give you the name of each metric
 names(crown_metrics)
 
 par(mfrow=c(1,3))
