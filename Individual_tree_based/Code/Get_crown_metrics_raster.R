@@ -3,11 +3,7 @@
 library(lidR)
 library(raster)
 library(sf)
-library(foreach)
-library(doParallel)
 library(dplyr)
-#library(lidRmetrics)
-library(Lmoments)
 library(exactextractr)
 library(terra)
 
@@ -40,6 +36,8 @@ get_crown_metrics = function(las, res=5) {
   names(chm_crown_metrics)[1] = 'CHM'
   return(list(crowns = crowns, chm_crown_metrics = chm_crown_metrics))
 }
+
+
 
 
 ### below are helper functions 
