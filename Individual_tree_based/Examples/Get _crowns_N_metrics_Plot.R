@@ -5,6 +5,7 @@ setwd("...")
 las = readLAS('las4test.laz')
 las
 outs= get_crown_metrics(las, res=5)
+
 crowns= outs[[1]]
 crown_metrics = outs[[2]]
 names(crown_metrics)
