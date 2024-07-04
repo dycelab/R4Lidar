@@ -157,7 +157,7 @@ rasterize_crown_metrics = function(crowns, chm){
   ## get crown metric for each pixel by each tree
   ## here is the logic to get pixel-level crown metric:  
   ## for each pixel, multiple the crown metric (e.g. crown area) by the percetage of this crown overlapping with this pixel.
-  ## example, if the crown area is 50, and 50% of this crown is overlapping with this pixel, the crown area of this tree for this pixel is 25
+  ## for example, if the crown area is 50, and 50% of this crown is overlapping with this pixel, the crown area of this tree for this pixel is 25
   
   crowns_coverageP_Area =  Map(function(df, factor) {df$value <- df$value * df$coverage_fraction2 * factor/sum(df$coverage_fraction2); return(df)}, crowns_coverageP, crowns$area)
   crowns_coverageP_V1 =  Map(function(df, factor) {df$value <- df$value * df$coverage_fraction2 * factor/sum(df$coverage_fraction2); return(df)}, crowns_coverageP, crowns$V1)
@@ -189,7 +189,8 @@ rasterize_crown_metrics = function(crowns, chm){
   
   # count number of trees for each pixel
   tree_count = aggregate(value ~ x + y, FUN = length, data= crowns_coverageP_Area) 
-  
+
+  # rasterize metrics by using chm as template
   area_mean = rasterize_each_metric(crowns_coverageP_Area_agg1, chm )
   V1_mean = rasterize_each_metric(crowns_coverageP_V1_agg1, chm )
   HCD1_mean = rasterize_each_metric(crowns_coverageP_HCD1_agg1, chm )
@@ -204,7 +205,7 @@ rasterize_crown_metrics = function(crowns, chm){
   
   tree_number = rasterize_each_metric(tree_count, chm)
   
-  
+  # stack all the rasterized metrics and return
   stacks = c(area_mean, V1_mean, HCD1_mean, area_max, V1_max, HCD1_max, area_sum, V1_sum, HCD1_sum, tree_number)
   names(stacks) = c('Crown_area_Avg', 'Tree_volume_Avg', 'Tree_height_diameter_Avg','Crown_area_Max', 'Tree_volume_Max', 'Tree_height_diameter_Max',
                     'Crown_area_Sum', 'Tree_volume_Sum', 'Tree_height_diameter_Sum','N_tree')
