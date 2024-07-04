@@ -95,7 +95,7 @@ get_individual_tree_crown = function(las_normalized, chm_res= 0.5,  min_z = 1.3)
   # uncomment this to enable canopy smooth
   #chm_smoothed <- terra::focal(chm, w = kernel, fun = median, na.rm = TRUE)
   
-  # comment this use smoothed chm
+  # comment this to use smoothed chm
   chm_smoothed =chm
   
   # get tree tops, hmin: the minimum tree height
@@ -157,7 +157,7 @@ rasterize_crown_metrics = function(crowns, chm){
   ## get crown metric for each pixel by each tree
   ## here is the logic to get pixel-level crown metric:  
   ## for each pixel, multiple the crown metric (e.g. crown area) by the percetage of this crown overlapping with this pixel.
-  ## example, if the crown area is 50, and 50% of this crown is overlapping with this pixel, the crown area of this tree for this pixel is 50
+  ## example, if the crown area is 50, and 50% of this crown is overlapping with this pixel, the crown area of this tree for this pixel is 25
   
   crowns_coverageP_Area =  Map(function(df, factor) {df$value <- df$value * df$coverage_fraction2 * factor/sum(df$coverage_fraction2); return(df)}, crowns_coverageP, crowns$area)
   crowns_coverageP_V1 =  Map(function(df, factor) {df$value <- df$value * df$coverage_fraction2 * factor/sum(df$coverage_fraction2); return(df)}, crowns_coverageP, crowns$V1)
